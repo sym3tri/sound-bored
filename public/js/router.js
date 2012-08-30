@@ -8,14 +8,12 @@ define([
   'backbone',
   'views/nav',
   'views/home',
-  'views/about',
-  'models/hello',
-  'collections/hellos'
+  'views/about'
 ],
 /**
  * @returns {Backbone.Router}
  */
-function(Backbone, NavView, HomeView, AboutView, Hello, Hellos) {
+function(Backbone, NavView, HomeView, AboutView) {
   'use strict';
 
   var AppRouter;
@@ -38,15 +36,8 @@ function(Backbone, NavView, HomeView, AboutView, Hello, Hellos) {
      * @param {Object} options
      */
     initialize: function (options) {
-
-      // TODO: Remove this test data
-      var testCollection = new Hellos();
-      testCollection.add();
-      testCollection.add({'text': 'there!'});
-      // Test Data
-
       this.navView = new NavView({ router: this });
-      this.homeView = new HomeView({ collection: testCollection });
+      this.homeView = new HomeView();
       this.aboutView = new AboutView();
     },
 
@@ -69,6 +60,7 @@ function(Backbone, NavView, HomeView, AboutView, Hello, Hellos) {
     initialize: function () {
       var appRouter = new AppRouter();
       Backbone.history.start({ pushState: true });
+      window.App = appRouter;
     }
   };
 

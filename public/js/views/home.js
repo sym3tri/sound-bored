@@ -7,17 +7,13 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'models/hello',
-  'collections/hellos',
-  'templates/home',
-  // bootstrap plugins must be required, but are just appended to jquery as
-  // plugins so the instances need not be referneced.
-  'bootstrapAlert'
+  'models/sound',
+  'templates/home'
 ],
 /**
  * @returns {Backbone.View}
  */
-function($, _, Backbone, Hello, Hellos, homeTpl) {
+function($, _, Backbone, Sound, homeTpl) {
   'use strict';
 
   var HomeView;
@@ -36,8 +32,8 @@ function($, _, Backbone, Hello, Hellos, homeTpl) {
      * @private
      */
     events: {
-      'click .add-new': 'onAddNewClick',
-      'click .bootstrap-plugin-test-alert': 'onAlertCloseClick'
+      'click #start': 'onStartClick',
+      'click #stop': 'onStopClick'
     },
 
     el: $('#main-container'),
@@ -46,8 +42,8 @@ function($, _, Backbone, Hello, Hellos, homeTpl) {
       // Bind all non-event handler methods to 'this'.
       _.bindAll(this, 'render');
 
-      this.collection.on('add', this.render);
-      this.collection.on('reset', this.render);
+      this.sound = new Sound({ filePath: '/sounds/beat.mp3' });
+      this.sound.load();
     },
 
     /**
@@ -57,8 +53,7 @@ function($, _, Backbone, Hello, Hellos, homeTpl) {
     render: function () {
       this.$el.html(this.template({
         // this should work if underscore.string was setup properly
-        title: _.trim('Home Title    '),
-        hellos: this.collection.toJSON()
+        title: 'Home Title'
       }));
 
       return this;
@@ -71,16 +66,14 @@ function($, _, Backbone, Hello, Hellos, homeTpl) {
      * @private
      * @param {Event} e
      */
-    onAlertCloseClick: function (e) {
-      this.$('.bootstrap-plugin-test-alert').alert('close');
+    onStartClick: function (e) {
+      if (this.sound.isLoaded()) {
+        this.sound.play();
+      }
     },
 
-    /**
-     * @private
-     * @param {Event} e
-     */
-    onAddNewClick: function (e) {
-      this.collection.add(new Hello());
+    onStopClick: function (e) {
+      this.sound.stop();
     }
 
   });

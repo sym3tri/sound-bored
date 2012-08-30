@@ -15,6 +15,8 @@ require.config({
     'underscore':           'lib/underscore',
     'handlebarsBase':       '../extern/handlebars/handlebars',
     'handlebars':           'lib/handlebars',
+    'soundmanagerBase':     '../extern/soundmanager/soundmanager2',
+    'SoundManager':         'lib/soundmanager',
     // Bootstrap plugins
     'bootstrapAlert':       '../extern/bootstrap/js/bootstrap-alert',
     'bootstrapButton':      '../extern/bootstrap/js/bootstrap-button',
@@ -42,6 +44,10 @@ require.config({
     'handlebarsBase': {
       deps: [],
       exports: 'Handlebars'
+    },
+    'soundmanagerBase': {
+      deps: [],
+      exports: 'soundManager'
     },
     // Boostrap Plugins
     'bootstrapAlert':       ['jquery'],
