@@ -77,7 +77,7 @@ function(_, Backbone, AudioContext) {
       source = this.get('bufferSource');
       this.connectAnalyser();
       source.connect(context.destination);
-      this.get('bufferSource').noteOn(0);
+      source.noteOn(0);
       this.set('isPlaying', true);
       this.trigger('play');
     },
