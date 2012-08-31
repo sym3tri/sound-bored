@@ -54,10 +54,6 @@ function ($, _, Backbone, d3, Sound, homeTpl) {
       this.sound = new Sound({ filePath: '/sounds/beat.mp3' });
 
       this.sound.on('loaded', _.bind(function () {
-        this.timeData = new Uint8Array(
-          this.sound.get('analyser').frequencyBinCount);
-        this.freqData = new Uint8Array(
-          this.sound.get('analyser').frequencyBinCount);
       }, this));
       this.sound.load();
     },
@@ -110,6 +106,10 @@ function ($, _, Backbone, d3, Sound, homeTpl) {
         .style('height', this.constants.VIZ_HEIGHT);
 
       this.sound.on('play', _.bind(function () {
+        this.timeData = new Uint8Array(
+          this.sound.get('analyser').frequencyBinCount);
+        this.freqData = new Uint8Array(
+          this.sound.get('analyser').frequencyBinCount);
         this.refreshVizualizer();
         this.refreshFreq();
       }, this));

@@ -52,20 +52,7 @@ function(_, Backbone, AudioContext) {
       request.onload = _.bind(function() {
         this.get('context').decodeAudioData(request.response,
         _.bind(function (buffer) {
-          var analyser, source, context;
-          context = this.get('context');
-          source = context.createBufferSource();
-          // attach an anlayzer
-          analyser = context.createAnalyser();
-          analyser.fftSize = 512;
-          source.buffer = buffer;
-          source.connect(analyser);
-          source.connect(context.destination);
-          // update model properties
-          this.set('bufferSource', source);
-          this.set('analyser', analyser);
           this.set('buffer', buffer);
-
           this.loaded_ = true;
           this.trigger('loaded');
           console.log('sound loaded.');
@@ -84,10 +71,31 @@ function(_, Backbone, AudioContext) {
     },
 
     play: function () {
-      var source = this.get('bufferSource');
-      source.noteOn(0);
+      var context = this.get('context'),
+          source;
+      this.createBufferSource();
+      source = this.get('bufferSource');
+      this.connectAnalyser();
+      source.connect(context.destination);
+      this.get('bufferSource').noteOn(0);
       this.set('isPlaying', true);
       this.trigger('play');
+    },
+
+    createBufferSource: function () {
+      var context = this.get('context'),
+          source = context.createBufferSource();
+      source.buffer = this.get('buffer');
+      this.set('bufferSource', source);
+    },
+
+    connectAnalyser: function () {
+      var context = this.get('context'),
+          source = this.get('bufferSource'),
+          analyser = context.createAnalyser();
+      analyser.fftSize = 512;
+      source.connect(analyser);
+      this.set('analyser', analyser);
     }
 
   });
