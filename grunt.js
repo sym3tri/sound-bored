@@ -106,7 +106,12 @@ module.exports = function(grunt) {
         options: {
           browser: true
         },
-        globals: {}
+        globals: {
+          webkitAudioContext: true,
+          console: true,
+          Float32Array: true,
+          Uint8Array: true
+        }
       },
       specs: {
         options: {},

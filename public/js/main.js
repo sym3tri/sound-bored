@@ -17,6 +17,8 @@ require.config({
     'handlebars':           'lib/handlebars',
     'soundmanagerBase':     '../extern/soundmanager/soundmanager2',
     'SoundManager':         'lib/soundmanager',
+    'AudioContext':         'lib/audiocontext',
+    'd3':                   '../extern/d3/d3',
     // Bootstrap plugins
     'bootstrapAlert':       '../extern/bootstrap/js/bootstrap-alert',
     'bootstrapButton':      '../extern/bootstrap/js/bootstrap-button',
@@ -33,6 +35,10 @@ require.config({
   },
   // Load modules that don't natively support AMD.
   shim: {
+    'd3': {
+      deps: [],
+      exports: 'd3'
+    },
     'underscoreBase': {
       deps: [],
       exports: '_'
