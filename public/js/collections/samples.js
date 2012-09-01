@@ -1,34 +1,27 @@
 /**
  * @fileOVerview
- * A sample Backbone Collection.
+ * Collection of Sample models.
  */
 
 define([
   'underscore',
   'backbone',
-  'models/hello'
+  'models/sample'
 ],
 /**
  * @returns {Backbone.Collection}
  */
-function(_, Backbone, Hello){
+function(_, Backbone, Sample){
   'use strict';
 
-  var Hellos;
-
-  /**
-   * @private
-   */
-  function myPrivate() {
-    // do private stuff
-  }
+  var Samples;
 
   /**
    * @constructor
    */
-  Hellos = Backbone.Collection.extend({
+  Samples = Backbone.Collection.extend({
 
-    model: Hello,
+    model: Sample,
 
     /**
      * @public
@@ -40,5 +33,5 @@ function(_, Backbone, Hello){
 
   });
 
-  return Hellos;
+  return Samples;
 });

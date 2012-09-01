@@ -19,7 +19,7 @@ function(SoundManagerBase) {
 
     // optional: version of SM2 flash audio API to use (8 or 9; default is 8
     // if omitted, OK for most use cases.)
-    //flashVersion: 9,
+    flashVersion: 9,
 
     // use soundmanager2-nodebug-jsmin.js, or disable debug mode
     // (enabled by default) after development/testing

@@ -9,12 +9,14 @@ define([
   'backbone',
   'd3',
   'models/sound',
+  'models/sampler',
+  'views/sampler',
   'templates/home'
 ],
 /**
  * @returns {Backbone.View}
  */
-function ($, _, Backbone, d3, Sound, homeTpl) {
+function ($, _, Backbone, d3, Sound, Sampler, SamplerView, homeTpl) {
   'use strict';
 
   var HomeView;
@@ -56,6 +58,9 @@ function ($, _, Backbone, d3, Sound, homeTpl) {
       this.sound.on('loaded', _.bind(function () {
       }, this));
       this.sound.load();
+
+      this.sampler = new Sampler({ name: 'my sampler' });
+      this.samplerView = new SamplerView({ model: this.sampler });
     },
 
     /**
@@ -67,8 +72,14 @@ function ($, _, Backbone, d3, Sound, homeTpl) {
         // this should work if underscore.string was setup properly
         title: 'Audio vizualizer thing'
       }));
-      this.renderVizualizer();
+      this.renderSampler(this.$('.sampler-view-container'));
+      //this.renderVizualizer();
       return this;
+    },
+
+    renderSampler: function (el) {
+      this.samplerView.setElement(el);
+      this.samplerView.render();
     },
 
     renderVizualizer: function () {
@@ -90,12 +101,14 @@ function ($, _, Backbone, d3, Sound, homeTpl) {
 
       gradient.append("svg:stop")
           .attr("offset", "0%")
-          .attr("stop-color", "#00A4F7")
+          //.attr("stop-color", "#00A4F7")
+          .attr("stop-color", "#FF3399")
           .attr("stop-opacity", 1);
 
       gradient.append("svg:stop")
           .attr("offset", "100%")
-          .attr("stop-color", "#030060")
+          //.attr("stop-color", "#030060")
+          .attr("stop-color", "#9900CC")
           .attr("stop-opacity", 1);
 
       this.freqViz = this.$('#freq-container');

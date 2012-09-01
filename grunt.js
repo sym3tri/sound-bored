@@ -21,7 +21,7 @@ module.exports = function(grunt) {
     },
     recess: {
       dev: {
-        src: ['public/less/**/*.less'],
+        src: ['public/less/base.less'],
         dest: 'public/dist/style.css',
         options: {
           compile: true
@@ -60,7 +60,7 @@ module.exports = function(grunt) {
     },
     watch: {
       less: {
-        files: ['<config:recess.dev.src>'],
+        files: ['public/less/**/*.less'],
         tasks: 'less'
       },
       templates: {
@@ -108,6 +108,7 @@ module.exports = function(grunt) {
         },
         globals: {
           webkitAudioContext: true,
+          webkitRequestAnimationFrame: true,
           console: true,
           Float32Array: true,
           Uint8Array: true

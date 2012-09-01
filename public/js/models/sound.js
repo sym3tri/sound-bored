@@ -1,6 +1,6 @@
 /**
  * @fileOVerview
- * A sample Backbone Model.
+ * Model for actualy playable sound.
  */
 
 define([
