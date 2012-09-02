@@ -43,6 +43,7 @@ function(_, Backbone, AudioContext) {
       return this.loaded_;
     },
 
+    // TODO: rename to fetchFileFromUrl()
     load: function(url) {
       var request = new window.XMLHttpRequest();
       request.open('GET', this.get('filePath'), true);
@@ -50,18 +51,27 @@ function(_, Backbone, AudioContext) {
 
       // Decode asynchronously
       request.onload = _.bind(function() {
-        this.get('context').decodeAudioData(request.response,
+        this.loadData(request.response);
+      }, this);
+      request.send();
+    },
+
+    loadFile: function () {
+    },
+
+    loadData: function (data) {
+      this.get('context').decodeAudioData(
+        data,
         _.bind(function (buffer) {
           this.set('buffer', buffer);
           this.loaded_ = true;
-          this.trigger('loaded');
           console.log('sound loaded.');
+          this.trigger('loaded');
         }, this),
-        function () {
+        _.bind(function () {
           console.log('error loading sound');
-        });
-      }, this);
-      request.send();
+        }, this)
+      );
     },
 
     stop: function () {

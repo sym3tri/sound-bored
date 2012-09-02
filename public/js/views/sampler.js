@@ -39,7 +39,7 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
       _.bindAll(this, 'render', 'renderSamplePads');
       this.sampler = this.model;
       this.samplePadViews = [];
-      this.sampler.samples.on('all', this.renderSamplePads);
+      this.sampler.samples.on('add remove', this.renderSamplePads);
     },
 
     /**

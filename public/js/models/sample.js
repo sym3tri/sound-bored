@@ -23,7 +23,8 @@ function(_, Backbone, Sound) {
   Sample = Backbone.Model.extend({
 
     defaults: {
-      name: ''
+      name: '',
+      loaded: false
     },
 
     /**
@@ -31,6 +32,20 @@ function(_, Backbone, Sound) {
      */
     initialize: function () {
       this.sound = new Sound();
+      this.sound.on('loaded', _.bind(function (e) {
+        this.set('loaded', true);
+        this.trigger('loaded');
+      }, this));
+    },
+
+    loadSound: function (data) {
+      this.sound.loadData(data);
+    },
+
+    play: function () {
+      if (this.get('loaded')) {
+        this.sound.play();
+      }
     }
 
   });

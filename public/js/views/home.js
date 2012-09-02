@@ -59,7 +59,7 @@ function ($, _, Backbone, d3, Sound, Sampler, SamplerView, homeTpl) {
       }, this));
       this.sound.load();
 
-      this.sampler = new Sampler({ name: 'my sampler' });
+      this.sampler = new Sampler({ name: 'My Soundboard' });
       this.samplerView = new SamplerView({ model: this.sampler });
     },
 
@@ -69,8 +69,6 @@ function ($, _, Backbone, d3, Sound, Sampler, SamplerView, homeTpl) {
      */
     render: function () {
       this.$el.html(this.template({
-        // this should work if underscore.string was setup properly
-        title: 'Audio vizualizer thing'
       }));
       this.renderSampler(this.$('.sampler-view-container'));
       //this.renderVizualizer();

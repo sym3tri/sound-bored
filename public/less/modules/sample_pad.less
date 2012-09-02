@@ -1,12 +1,40 @@
 .sample-pad {
   display: inline-block;
+  box-sizing: border-box;
+  vertical-align: bottom;
   width: 100px;
   height: 100px;
-  border: 1px dashed @grayDark;
-  background-color: @grayLighter;
-  border-radius: 4px;
   margin: 4px;
+  padding: 10px;
+  border: 1px dashed @grayLight;
+  border-radius: 4px;
+  background-color: @grayLighter;
+  font-size: 0.7rem;
+  line-height: 0.7rem;
   text-align: center;
-  padding: 2px;
-  font-size: 80%;
+  text-overflow: ellipsis;
+  word-wrap: break-word;
+  overflow: hidden;
+  cursor: default;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+
+  &.drag {
+    border-style: solid;
+  }
+  &.loading {
+    border-style: solid;
+  }
+  /* btn class means active & loaded */
+  &.btn {
+    border: 1px solid @blue;
+    border-bottom-width: 2px;
+    border-right-width: 2px;
+    cursor: pointer;
+  }
+  &.btn:active {
+    border-bottom-width: 1px;
+    border-top-width: 2px;
+  }
 }
