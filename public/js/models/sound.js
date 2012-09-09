@@ -40,6 +40,16 @@ function(_, Backbone, AudioContext) {
        */
       decodedAudioBuffer: null,
       /**
+       * To control gain for all voices of this sound.
+       * @type {AudioGainNode}
+       */
+      gainNode: null,
+      /**
+       * Where the output should be routed.
+       * @type {AudioNode}
+       */
+      outputNode: null,
+      /**
        * Analyser node to detect frequency/amplitude changes.
        * @type {RealtimeAnalyserNode}
        */
@@ -57,7 +67,10 @@ function(_, Backbone, AudioContext) {
      * @public
      */
     initialize: function () {
-      this.set('context', new AudioContext());
+      var ctx = new AudioContext();
+      this.set({
+        context: ctx
+      });
       /**
        * Reference to all playback buffers (Notes).
        * @type {AudioBufferSourceNode}
@@ -138,6 +151,19 @@ function(_, Backbone, AudioContext) {
       this.set('analyser', analyser);
     },
 
+    connectGain: function (audioNode) {
+      var context, gainNode;
+      if (!this.get('gainNode')) {
+        context = this.get('context');
+        gainNode = context.createGainNode();
+        gainNode.connect(context.destination);
+        this.set('gainNode', gainNode);
+      } else {
+        gainNode = this.get('gainNode');
+      }
+      audioNode.connect(gainNode);
+    },
+
     disposeVoice: function (voice) {
       this.audioNodes[this.audioNodes.indexOf(voice)] = null;
       this.audioNodes = _.compact(this.audioNodes);
@@ -164,8 +190,9 @@ function(_, Backbone, AudioContext) {
       }
       context = this.get('context');
       audioNode = this.createAudioNode();
-      this.connectAnalyser(audioNode);
-      audioNode.connect(context.destination);
+      this.connectGain(audioNode);
+      //this.connectAnalyser(audioNode);
+      //audioNode.connect(context.destination);
       audioNode.noteOn(0);
       // Remove references to the voice once play duration has passed.
       _.delay(
