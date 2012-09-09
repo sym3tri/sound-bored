@@ -31,7 +31,13 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
        */
       context: null,
       name: '',
-      totalRows: 4
+      totalRows: 4,
+      masterOut: null,
+      /**
+       * Analyser node to detect frequency/amplitude changes.
+       * @type {RealtimeAnalyserNode}
+       */
+      analyser: null
     },
 
     /**
@@ -40,18 +46,29 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
     initialize: function () {
       var testSamples = [],
           context = new AudioContext(),
+          masterOut,
           i;
       this.set('context', context);
-      this.masterOut = context.createGainNode();
-      this.masterOut.connect(context.destination);
+      masterOut = context.createGainNode();
+      this.set('masterOut', masterOut);
+      this.connectAnalyser(masterOut);
+      masterOut.connect(context.destination);
       for (i=1; i<=16; i+=1) {
         testSamples.push({
           context: context,
           name: 'sample #' + i,
-          outputNode: this.masterOut
+          outputNode: masterOut
         });
       }
       this.samples = new Samples(testSamples);
+    },
+
+    connectAnalyser: function (audioNode) {
+      var context = this.get('context'),
+          analyser = context.createAnalyser();
+      analyser.fftSize = 512;
+      audioNode.connect(analyser);
+      this.set('analyser', analyser);
     },
 
     getLoadedSamples: function () {
@@ -61,14 +78,8 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
     },
 
     setVolume: function (volume) {
-      this.masterOut.gain.value = volume / 100;
+      this.get('masterOut').gain.value = volume / 100;
     },
-
-    //getPlayingSamples: function () {
-      //return this.getLoadedSamples().filter(function (sample) {
-        //return sample.isPlaying();
-      //});
-    //},
 
     /**
      * Stop all the samples.

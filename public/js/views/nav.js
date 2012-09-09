@@ -43,7 +43,6 @@ function($, _, Backbone, navTpl) {
      */
     navItems: [
       { route: 'home', display: 'Home' },
-      { route: 'save', display: 'Save' },
       { route: '', display: 'Share', classes: 'dropdown' },
       { route: 'about', display: 'About' }
     ],

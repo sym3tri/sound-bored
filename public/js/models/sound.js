@@ -119,10 +119,9 @@ function(_, Backbone, AudioContext) {
             decodedAudioBuffer: decodedAudioBuffer,
             loaded: true
           });
-          console.log('sound loaded.');
         }, this),
         _.bind(function () {
-          console.log('error decoding sound data');
+          console.error('error decoding sound data');
         }, this)
       );
     },
