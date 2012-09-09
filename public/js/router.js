@@ -13,7 +13,7 @@ define([
 /**
  * @returns {Backbone.Router}
  */
-function(Backbone, NavView, HomeView, AboutView) {
+function (Backbone, NavView, HomeView, AboutView) {
   'use strict';
 
   var AppRouter;

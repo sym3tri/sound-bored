@@ -51,8 +51,8 @@ function ($, _, Backbone, d3, Sound, Sampler, SamplerView, homeTpl) {
 
     initialize: function () {
       _.bindAll(this, 'render', 'renderVizualizer', 'refreshVizualizer');
-      this.sound = new Sound();
-      this.sound.loadUrl('http://localhost:3000/sounds/beat.mp3');
+      //this.sound = new Sound();
+      //this.sound.loadUrl('http://localhost:3000/sounds/beat.mp3');
       this.sampler = new Sampler({ name: 'My Soundboard' });
       this.samplerView = new SamplerView({ model: this.sampler });
     },

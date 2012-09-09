@@ -6,6 +6,7 @@
 define([
   'underscore',
   'backbone',
+  'AudioContext',
   'models/sound',
   'models/sample',
   '../collections/samples'
@@ -14,7 +15,7 @@ define([
 /**
  * @returns {Backbone.Model}
  */
-function(_, Backbone, SoundModel, Sample, Samples) {
+function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
   'use strict';
 
   var Sampler;
@@ -25,6 +26,10 @@ function(_, Backbone, SoundModel, Sample, Samples) {
   Sampler = Backbone.Model.extend({
 
     defaults: {
+      /**
+       * @type {AudioContext}
+       */
+      context: null,
       name: '',
       totalRows: 4
     },
@@ -33,10 +38,18 @@ function(_, Backbone, SoundModel, Sample, Samples) {
      * @public
      */
     initialize: function () {
-
-      var testSamples = [], i;
+      var testSamples = [],
+          context = new AudioContext(),
+          i;
+      this.set('context', context);
+      this.masterOut = context.createGainNode();
+      this.masterOut.connect(context.destination);
       for (i=1; i<=16; i+=1) {
-        testSamples.push({ name: 'sample #' + i});
+        testSamples.push({
+          context: context,
+          name: 'sample #' + i,
+          outputNode: this.masterOut
+        });
       }
       this.samples = new Samples(testSamples);
     },
@@ -45,6 +58,10 @@ function(_, Backbone, SoundModel, Sample, Samples) {
       return this.samples.filter(function (sample) {
         return sample.get('loaded');
       });
+    },
+
+    setVolume: function (volume) {
+      this.masterOut.gain.value = volume / 100;
     },
 
     //getPlayingSamples: function () {

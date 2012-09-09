@@ -59,7 +59,9 @@ function($, _, Backbone, Sample, tpl) {
       }));
       // btn class makes pads pressable
       if (this.sample.get('loaded')) {
-        this.$el.addClass('btn');
+        this.$el
+          .removeClass('loading')
+          .addClass('btn');
       }
       this.$el.popover({
         trigger: 'manual',

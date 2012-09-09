@@ -2,8 +2,14 @@
   <h3>Name: {{sampler.name}}</h3>
   <div class="btn-toolbar">
     <button class="btn btn-danger btn-stop-all">Stop All</button>
-    <button class="btn btn-primary btn-save">Save</button>
+    <button class="btn btn-inverse btn-save">Save</button>
   </div>
+
+  <div>
+    <input class="sampler-volume" type="range" min="0" max="100" step="1" value="100"/>
+    Master Volume
+  </div>
+
   <div class="sample-pads-container">
     {{! TODO: render rows based on sampler.totalRows }}
     <div class="sampler-pad-row row-1"></div>

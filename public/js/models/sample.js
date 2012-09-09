@@ -6,13 +6,14 @@
 define([
   'underscore',
   'backbone',
+  'AudioContext',
   'models/sound'
 ],
 
 /**
  * @returns {Backbone.Model}
  */
-function(_, Backbone, Sound) {
+function(_, Backbone, AudioContext, Sound) {
   'use strict';
 
   var Sample;
@@ -23,6 +24,14 @@ function(_, Backbone, Sound) {
   Sample = Backbone.Model.extend({
 
     defaults: {
+      /**
+       * @type {AudioContext}
+       */
+      context: null,
+      /**
+       * @type {AudioNode}
+       */
+      outputNode: null,
       /**
        * User defined sample name.
        * @type {string}
@@ -41,7 +50,11 @@ function(_, Backbone, Sound) {
      * @public
      */
     initialize: function () {
-      this.sound = new Sound();
+      var context = this.get('context');
+      this.sound = new Sound({
+        context: context,
+        outputNode: this.get('outputNode')
+      });
       this.sound.on('change:loaded', function (e) {
         this.set('loaded', true);
       }, this);

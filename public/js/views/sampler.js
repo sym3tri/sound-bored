@@ -34,7 +34,8 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
      */
     events: {
       'click .btn-stop-all': 'onStopAllClick',
-      'click .btn-save': 'onSaveClick'
+      'click .btn-save': 'onSaveClick',
+      'change .sampler-volume': 'onVolumeChange'
     },
 
     initialize: function () {
@@ -82,6 +83,10 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
     onSaveClick: function (e) {
       this.sampler.save();
       e.preventDefault();
+    },
+
+    onVolumeChange: function (e) {
+      this.sampler.setVolume(parseInt(e.target.value, 10));
     }
 
   });

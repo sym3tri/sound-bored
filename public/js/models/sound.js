@@ -67,10 +67,6 @@ function(_, Backbone, AudioContext) {
      * @public
      */
     initialize: function () {
-      var ctx = new AudioContext();
-      this.set({
-        context: ctx
-      });
       /**
        * Reference to all playback buffers (Notes).
        * @type {AudioBufferSourceNode}
@@ -156,7 +152,7 @@ function(_, Backbone, AudioContext) {
       if (!this.get('gainNode')) {
         context = this.get('context');
         gainNode = context.createGainNode();
-        gainNode.connect(context.destination);
+        gainNode.connect(this.get('outputNode') || context.destination);
         this.set('gainNode', gainNode);
       } else {
         gainNode = this.get('gainNode');
