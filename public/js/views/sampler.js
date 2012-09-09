@@ -33,6 +33,8 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
      * @private
      */
     events: {
+      'click .btn-stop-all': 'onStopAllClick',
+      'click .btn-save': 'onSaveClick'
     },
 
     initialize: function () {
@@ -71,6 +73,15 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
           this.samplePadViews.push(samplePadView);
         padCount += 1;
       }, this);
+    },
+
+    onStopAllClick: function (e) {
+      this.sampler.stopAll();
+    },
+
+    onSaveClick: function (e) {
+      this.sampler.save();
+      e.preventDefault();
     }
 
   });

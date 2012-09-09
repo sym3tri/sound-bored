@@ -50,15 +50,9 @@ function ($, _, Backbone, d3, Sound, Sampler, SamplerView, homeTpl) {
     el: $('#main-container'),
 
     initialize: function () {
-      // Bind all non-event handler methods to 'this'.
       _.bindAll(this, 'render', 'renderVizualizer', 'refreshVizualizer');
-
-      this.sound = new Sound({ filePath: '/sounds/beat.mp3' });
-
-      this.sound.on('loaded', _.bind(function () {
-      }, this));
-      this.sound.load();
-
+      this.sound = new Sound();
+      this.sound.loadUrl('http://localhost:3000/sounds/beat.mp3');
       this.sampler = new Sampler({ name: 'My Soundboard' });
       this.samplerView = new SamplerView({ model: this.sampler });
     },
@@ -206,7 +200,7 @@ function ($, _, Backbone, d3, Sound, Sampler, SamplerView, homeTpl) {
      * @param {Event} e
      */
     onStartClick: function (e) {
-      if (this.sound.isLoaded()) {
+      if (this.sound.get('loaded')) {
         this.sound.play();
       }
     },

@@ -23,8 +23,18 @@ function(_, Backbone, Sound) {
   Sample = Backbone.Model.extend({
 
     defaults: {
+      /**
+       * User defined sample name.
+       * @type {string}
+       */
       name: '',
-      loaded: false
+      /** @type {boolean} */
+      loaded: false,
+      /**
+       * Optional position info for the sample.
+       * @type {number}
+       */
+      position: 0
     },
 
     /**
@@ -32,10 +42,14 @@ function(_, Backbone, Sound) {
      */
     initialize: function () {
       this.sound = new Sound();
-      this.sound.on('loaded', _.bind(function (e) {
+      this.sound.on('change:loaded', function (e) {
         this.set('loaded', true);
-        this.trigger('loaded');
-      }, this));
+      }, this);
+    },
+
+    loadFile: function (file) {
+      this.sound.loadFile(file);
+      this.set('name', file.name);
     },
 
     loadSound: function (data) {
@@ -43,9 +57,30 @@ function(_, Backbone, Sound) {
     },
 
     play: function () {
-      if (this.get('loaded')) {
-        this.sound.play();
-      }
+      this.sound.play();
+    },
+
+    stop: function () {
+      this.sound.stop();
+    },
+
+    save: function () {
+      var xhr = new XMLHttpRequest(),
+          formData = new FormData();
+
+      formData.append('sound', this.sound.getSoundDataBlob(), this.get('name'));
+      // TOOD: save position information?
+
+      xhr.open('POST', '/upload');
+      xhr.onload = function () {
+        if (xhr.status === 200) {
+          console.log('all done: ' + xhr.status);
+        } else {
+          console.log('Something went terribly wrong...');
+        }
+      };
+
+      xhr.send(formData);
     }
 
   });

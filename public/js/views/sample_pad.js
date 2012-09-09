@@ -8,7 +8,8 @@ define([
   'underscore',
   'backbone',
   'models/sample',
-  'templates/sample_pad'
+  'templates/sample_pad',
+  'bootstrapPopover'
 ],
 /**
  * @returns {Backbone.View}
@@ -43,7 +44,7 @@ function($, _, Backbone, Sample, tpl) {
     },
 
     initialize: function () {
-      _.bindAll(this, 'render', 'onFileLoad');
+      _.bindAll(this, 'render');
       this.sample = this.model;
       this.sample.on('change', this.render);
     },
@@ -60,6 +61,10 @@ function($, _, Backbone, Sample, tpl) {
       if (this.sample.get('loaded')) {
         this.$el.addClass('btn');
       }
+      this.$el.popover({
+        trigger: 'manual',
+        animation: false,
+        content: 'sound settings...' });
       return this;
     },
 
@@ -68,27 +73,19 @@ function($, _, Backbone, Sample, tpl) {
     },
 
     loadFile: function (file) {
-      var fileReader = new FileReader();
-      fileReader.onload = this.onFileLoad;
-      fileReader.readAsArrayBuffer(file);
-      this.$el.removeClass('loading');
-      this.sample.set('name', file.name);
-    },
-
-    onFileLoad: function (e) {
-      this.sample.loadSound(e.target.result);
+      this.sample.loadFile(file);
     },
 
     onDragEnter: function (e) {
       this.$el.addClass('drag');
     },
 
-    onDragLeave: function (e) {
-      this.$el.removeClass('drag');
-    },
-
     onDragOver: function (e) {
       e.preventDefault();
+    },
+
+    onDragLeave: function (e) {
+      this.$el.removeClass('drag');
     },
 
     onDrop: function (e) {
@@ -107,6 +104,7 @@ function($, _, Backbone, Sample, tpl) {
 
     onRightClick: function (e) {
       console.log('right click');
+      this.$el.popover('show');
       e.preventDefault();
       return false;
     }

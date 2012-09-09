@@ -1,6 +1,7 @@
 /**
  * @fileOVerview
- * Model for actualy playable sound.
+ * Model for an actual playable sound.
+ * Implemented using the W3C Web Audio API: http://www.w3.org/TR/webaudio/
  */
 
 define([
@@ -23,11 +24,32 @@ function(_, Backbone, AudioContext) {
   Sound = Backbone.Model.extend({
 
     defaults: {
-      filePath: null,
-      buffer: null,
+      /**
+       * Entry point to the Web Audio API.
+       * @type {AudioContext}
+       */
       context: null,
+      /**
+       * Raw sound data loaded from a file.
+       * @type {ArrayBuffer}
+       */
+      soundData: null,
+      /**
+       * Sound data decoded from the file.
+       * @type {AudioBuffer}
+       */
+      decodedAudioBuffer: null,
+      /**
+       * Analyser node to detect frequency/amplitude changes.
+       * @type {RealtimeAnalyserNode}
+       */
       analyser: null,
-      bufferSource: null,
+      /**
+       * Indicates if sound data has loaded or not.
+       * @type {boolean}
+       */
+      loaded: false,
+      /** @type {boolean} */
       isPlaying: false
     },
 
@@ -36,17 +58,26 @@ function(_, Backbone, AudioContext) {
      */
     initialize: function () {
       this.set('context', new AudioContext());
-      this.loaded_ = false;
+      /**
+       * Reference to all playback buffers (Notes).
+       * @type {AudioBufferSourceNode}
+       */
+      this.audioNodes = [];
     },
 
-    isLoaded: function () {
-      return this.loaded_;
+    /**
+     * @return {Blob}
+     */
+    getSoundDataBlob: function () {
+      return new Blob([new Uint8Array(this.get('soundData'))]);
     },
 
-    // TODO: rename to fetchFileFromUrl()
-    load: function(url) {
-      var request = new window.XMLHttpRequest();
-      request.open('GET', this.get('filePath'), true);
+    /**
+     * @param {string} url Url from which to load file.
+     */
+    loadUrl: function (url) {
+      var request = new XMLHttpRequest();
+      request.open('GET', url, true);
       request.responseType = 'arraybuffer';
 
       // Decode asynchronously
@@ -56,56 +87,96 @@ function(_, Backbone, AudioContext) {
       request.send();
     },
 
-    loadFile: function () {
+    /**
+     * @param {File} file
+     */
+    loadFile: function (file) {
+      var fileReader = new FileReader();
+      fileReader.onload = _.bind(function (e) {
+        this.loadData(e.target.result);
+      }, this);
+      fileReader.readAsArrayBuffer(file);
     },
 
+    /**
+     * @param {ArrayBuffer} data
+     */
     loadData: function (data) {
+      this.set('soundData', data);
       this.get('context').decodeAudioData(
         data,
-        _.bind(function (buffer) {
-          this.set('buffer', buffer);
-          this.loaded_ = true;
+        _.bind(function (decodedAudioBuffer) {
+          this.set({
+            decodedAudioBuffer: decodedAudioBuffer,
+            loaded: true
+          });
           console.log('sound loaded.');
-          this.trigger('loaded');
         }, this),
         _.bind(function () {
-          console.log('error loading sound');
+          console.log('error decoding sound data');
         }, this)
       );
     },
 
+    /**
+     * Creates a new AudioNode instance and sets a reference in the base sound
+     * object.
+     */
+    createAudioNode: function () {
+      var context = this.get('context'),
+          audioNode = context.createBufferSource();
+      audioNode.buffer = this.get('decodedAudioBuffer');
+      this.audioNodes.push(audioNode);
+      return audioNode;
+    },
+
+    connectAnalyser: function (audioNode) {
+      var context = this.get('context'),
+          analyser = context.createAnalyser();
+      analyser.fftSize = 512;
+      audioNode.connect(analyser);
+      this.set('analyser', analyser);
+    },
+
+    disposeVoice: function (voice) {
+      this.audioNodes[this.audioNodes.indexOf(voice)] = null;
+      this.audioNodes = _.compact(this.audioNodes);
+    },
+
     stop: function () {
-      this.get('bufferSource').noteOff(0);
+      if (!this.get('loaded') || !this.get('isPlaying')) {
+        return;
+      }
+      this.audioNodes.forEach(function (audioNode) {
+        audioNode.noteOff(0);
+      });
+      this.audioNodes = [];
       this.set('isPlaying', false);
       this.trigger('stop');
     },
 
     play: function () {
-      var context = this.get('context'),
-          source;
-      this.createBufferSource();
-      source = this.get('bufferSource');
-      this.connectAnalyser();
-      source.connect(context.destination);
-      source.noteOn(0);
+      var context,
+          audioNode;
+
+      if (!this.get('loaded')) {
+        return;
+      }
+      context = this.get('context');
+      audioNode = this.createAudioNode();
+      this.connectAnalyser(audioNode);
+      audioNode.connect(context.destination);
+      audioNode.noteOn(0);
+      // Remove references to the voice once play duration has passed.
+      _.delay(
+          _.bind(this.disposeVoice, this, audioNode),
+          this.getDuration() * 1000);
       this.set('isPlaying', true);
       this.trigger('play');
     },
 
-    createBufferSource: function () {
-      var context = this.get('context'),
-          source = context.createBufferSource();
-      source.buffer = this.get('buffer');
-      this.set('bufferSource', source);
-    },
-
-    connectAnalyser: function () {
-      var context = this.get('context'),
-          source = this.get('bufferSource'),
-          analyser = context.createAnalyser();
-      analyser.fftSize = 512;
-      source.connect(analyser);
-      this.set('analyser', analyser);
+    getDuration: function () {
+      return this.get('decodedAudioBuffer').duration;
     }
 
   });

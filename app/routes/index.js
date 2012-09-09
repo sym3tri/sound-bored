@@ -3,7 +3,8 @@
 
   module.exports = function (app) {
     return {
-      home: require('./home')(app)
+      home: require('./home')(app),
+      upload: require('./upload')(app)
     };
   };
 

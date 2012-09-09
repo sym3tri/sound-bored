@@ -62,7 +62,7 @@ require.config({
     'bootstrapCollapse':    ['jquery'],
     'bootstrapDropdown':    ['jquery'],
     'bootstrapModal':       ['jquery'],
-    'bootstrapPopover':     ['jquery'],
+    'bootstrapPopover':     ['jquery', 'bootstrapTooltip'],
     'bootstrapScrollspy':   ['jquery'],
     'bootstrapTab':         ['jquery'],
     'bootstrapTooltip':     ['jquery'],
