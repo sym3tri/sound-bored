@@ -43,6 +43,9 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
       this.sampler = this.model;
       this.samplePadViews = [];
       this.sampler.samples.on('add remove', this.renderSamplePads);
+      this.changeVolume = _.debounce(
+        _.bind(this.sampler.setVolume, this.sampler),
+        50);
     },
 
     /**
@@ -86,7 +89,8 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
     },
 
     onVolumeChange: function (e) {
-      this.sampler.setVolume(parseInt(e.target.value, 10));
+      var volume = parseInt(e.target.value, 10);
+      this.changeVolume(volume);
     }
 
   });

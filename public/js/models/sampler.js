@@ -32,6 +32,10 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
       context: null,
       name: '',
       totalRows: 4,
+      /**
+       * To control gain for all samples.
+       * @type {AudioGainNode}
+       */
       masterOut: null,
       /**
        * Analyser node to detect frequency/amplitude changes.
@@ -78,6 +82,7 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
     },
 
     setVolume: function (volume) {
+      console.log('vol:' + volume);
       this.get('masterOut').gain.value = volume / 100;
     },
 

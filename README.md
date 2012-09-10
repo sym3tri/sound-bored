@@ -2,16 +2,17 @@ sound-bored
 ===========
 
 ## TODO
-- Key mappings
+- share
+- size limits
+- upload progress
+- optimize vizualizations (only render if playing, use canvas)
 - Session management
 - save soundboards to database
+
+- Key mappings
 - load sounds from server
 - sample pad options: gain, name, key, etc
 - effects
 - highlight playing sound
-- share
 - error checking
-- upload progress
-- size limit
 - firefox, safari
-- optimize vizualizations (only render if playing, use canvas)
