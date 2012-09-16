@@ -35,7 +35,8 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
     events: {
       'click .btn-stop-all': 'onStopAllClick',
       'click .btn-save': 'onSaveClick',
-      'change .sampler-volume': 'onVolumeChange'
+      'change .sampler-volume': 'onVolumeChange',
+      'blur .sampler-name': 'onNameChange'
     },
 
     initialize: function () {
@@ -91,6 +92,11 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
     onVolumeChange: function (e) {
       var volume = parseInt(e.target.value, 10);
       this.changeVolume(volume);
+    },
+
+    onNameChange: function (e) {
+      var name = this.$(e.target).val();
+      this.sampler.set('name', name);
     }
 
   });

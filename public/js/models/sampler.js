@@ -96,6 +96,13 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
     },
 
     save: function () {
+      // TODO: save the sampler meta-data thru api,
+      // return deferred,
+      // upon deferred completion save each sample and upload sound files,
+      // set 'isSaved' flag to true,
+      // listen for any other chnages and save everything on change
+
+
       this.getLoadedSamples().forEach(function (sample) {
         sample.save();
       }, this);

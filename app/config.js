@@ -6,10 +6,17 @@
 
   module.exports = function (app, express) {
 
+    var RedisStore = require('connect-redis')(express);
+
     // General Config
     app.configure(function () {
       app.set('views', __dirname + '/views');
       app.set('view engine', 'hbs');
+      app.use(express.cookieParser());
+      app.use(express.session({ 
+        store: new RedisStore(),
+        secret: 'Sound Bored Session Secret' 
+      }));
       app.use(express.methodOverride());
       app.use(express.static(path.join(__dirname, '..', 'public')));
       app.use(express.bodyParser({

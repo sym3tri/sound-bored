@@ -56,7 +56,7 @@ function (
 
     initialize: function () {
       _.bindAll(this, 'render', 'renderWidgets');
-      this.sampler = new Sampler({ name: 'My Soundboard' });
+      this.sampler = new Sampler();
       this.samplerView = new SamplerView({ model: this.sampler });
     },
 
