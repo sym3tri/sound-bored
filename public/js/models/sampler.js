@@ -31,6 +31,8 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
        */
       context: null,
       name: '',
+      created: null,
+      updated: null,
       totalRows: 4,
       /**
        * To control gain for all samples.
@@ -43,6 +45,8 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
        */
       analyser: null
     },
+
+    urlRoot: '/api/soundbored',
 
     /**
      * @public
@@ -95,6 +99,12 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
       });
     },
 
+    saveSamples: function () {
+      this.getLoadedSamples().forEach(function (sample) {
+        sample.save();
+      }, this);
+    },
+
     save: function () {
       // TODO: save the sampler meta-data thru api,
       // return deferred,
@@ -102,10 +112,9 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
       // set 'isSaved' flag to true,
       // listen for any other chnages and save everything on change
 
-
-      this.getLoadedSamples().forEach(function (sample) {
-        sample.save();
-      }, this);
+      // TODO: is this the best way to call backbone super save()?
+      Backbone.Model.prototype.save.call(this);
+      this.saveSamples();
     }
 
   });
