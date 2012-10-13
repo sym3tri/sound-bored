@@ -5,7 +5,8 @@
     return {
       home: require('./home')(app),
       upload: require('./upload')(app),
-      api: require('./api')(app)
+      api: require('./api')(app),
+      auth: require('./auth')(app)
     };
   };
 

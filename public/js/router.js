@@ -27,6 +27,7 @@ function (Backbone, NavView, HomeView, AboutView) {
       '': 'home',
       'home': 'home',
       'about': 'about',
+      'login-complete': 'loginComplete',
       // Default
       '*actions': 'defaultAction'
     },
@@ -47,6 +48,11 @@ function (Backbone, NavView, HomeView, AboutView) {
 
     about: function () {
       this.aboutView.render();
+    },
+
+    loginComplete: function () {
+      alert('logged in');
+      window.opener.SC.connectCallback();
     },
 
     defaultAction: function (actions) {

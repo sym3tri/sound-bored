@@ -19,6 +19,8 @@ require.config({
     'SoundManager':         'lib/soundmanager',
     'AudioContext':         'lib/audiocontext',
     'd3':                   '../extern/d3/d3',
+    'soundCloudBase':       '../extern/soundcloud/soundcloud',
+    'soundCloud':           'lib/soundcloud',
     // Bootstrap plugins
     'bootstrapAlert':       '../extern/bootstrap/js/bootstrap-alert',
     'bootstrapButton':      '../extern/bootstrap/js/bootstrap-button',
@@ -54,6 +56,9 @@ require.config({
     'soundmanagerBase': {
       deps: [],
       exports: 'soundManager'
+    },
+    'soundCloudBase': {
+      exports: 'SC'
     },
     // Boostrap Plugins
     'bootstrapAlert':       ['jquery'],

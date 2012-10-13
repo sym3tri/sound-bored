@@ -7,6 +7,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'soundCloud',
   'models/sound',
   'models/sampler',
   'views/sampler',
@@ -21,6 +22,7 @@ function (
   $, 
   _,
   Backbone,
+  SC,
   Sound,
   Sampler,
   SamplerView,
@@ -50,6 +52,7 @@ function (
      * @private
      */
     events: {
+      'click #soundcloud-connect': 'onLoginClick'
     },
 
     el: $('#main-container'),
@@ -96,6 +99,14 @@ function (
         });
         this.$('.widget-container').append(this.waveAnalyserView.render().el);
       }
+    },
+
+    onLoginClick: function (e) {
+      SC.connect(function() {
+        SC.get('/me', function(me) { 
+          alert('Hello, ' + me.username); 
+        });
+      });
     }
 
   });
