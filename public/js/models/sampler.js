@@ -74,7 +74,7 @@ function(_, Backbone, AudioContext, SoundModel, Sample, Samples) {
     connectAnalyser: function (audioNode) {
       var context = this.get('context'),
           analyser = context.createAnalyser();
-      analyser.fftSize = 512;
+      analyser.fftSize = 256;
       audioNode.connect(analyser);
       this.set('analyser', analyser);
     },

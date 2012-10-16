@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 2012-10-15:v1
+
+# Explicitly cached 'master entries'.
+CACHE:
+
+# Resources that require the user to be online.
+NETWORK:
+
+FALLBACK:
+
+

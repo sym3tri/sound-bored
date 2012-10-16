@@ -73,7 +73,7 @@ function (
         })
       );
       this.renderSampler(this.$('.sampler-view-container'));
-      //this.renderWidgets();
+      this.renderWidgets();
       return this;
     },
 
@@ -83,14 +83,14 @@ function (
     },
 
     renderWidgets: function () {
-      if (!this.freqAnalyserView) {
-        this.freqAnalyserView = new FreqAnalyserView({
-          model: this.sampler.get('analyser'),
-          width: this.constants.WIDGET_WIDTH,
-          height: this.constants.WIDGET_HEIGHT
-        });
-        this.$('.widget-container').append(this.freqAnalyserView.render().el);
-      }
+      //if (!this.freqAnalyserView) {
+        //this.freqAnalyserView = new FreqAnalyserView({
+          //model: this.sampler.get('analyser'),
+          //width: this.constants.WIDGET_WIDTH,
+          //height: this.constants.WIDGET_HEIGHT
+        //});
+        //this.$('.widget-container').append(this.freqAnalyserView.render().el);
+      //}
       if (!this.waveAnalyserView) {
         this.waveAnalyserView = new WaveAnalyserView({
           model: this.sampler.get('analyser'),
@@ -103,8 +103,8 @@ function (
 
     onLoginClick: function (e) {
       SC.connect(function() {
-        SC.get('/me', function(me) { 
-          alert('Hello, ' + me.username); 
+        SC.post('/me/sets', { foo: 'bar', word: 'up' }, function(me) { 
+          //alert('Hello, ' + me.username); 
         });
       });
     }

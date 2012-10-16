@@ -46,7 +46,7 @@ function(
     width: 100,
     /** @type {number} */
     height: 100,
-    particleWidth: 1,
+    particleWidth: 4,
     particleHeight: 8,
 
     initialize: function () {
@@ -74,26 +74,26 @@ function(
         .style('width', this.width)
         .style('height', this.height);
 
-      var gradient = this.vizualizerEl.append("svg:defs")
-        .append("svg:linearGradient")
-          .attr("id", "gradient")
-          .attr("x1", "0%")
-          .attr("y1", "0%")
-          .attr("x2", "0%")
-          .attr("y2", "100%")
-          .attr("spreadMethod", "pad");
+      //var gradient = this.vizualizerEl.append("svg:defs")
+        //.append("svg:linearGradient")
+          //.attr("id", "gradient")
+          //.attr("x1", "0%")
+          //.attr("y1", "0%")
+          //.attr("x2", "0%")
+          //.attr("y2", "100%")
+          //.attr("spreadMethod", "pad");
 
-      gradient.append("svg:stop")
-          .attr("offset", "0%")
-          .attr("stop-color", "#00A4F7")
-          //.attr("stop-color", "#FF3399")
-          .attr("stop-opacity", 1);
+      //gradient.append("svg:stop")
+          //.attr("offset", "0%")
+          //.attr("stop-color", "#00A4F7")
+          ////.attr("stop-color", "#FF3399")
+          //.attr("stop-opacity", 1);
 
-      gradient.append("svg:stop")
-          .attr("offset", "100%")
-          .attr("stop-color", "#030060")
-          //.attr("stop-color", "#9900CC")
-          .attr("stop-opacity", 1);
+      //gradient.append("svg:stop")
+          //.attr("offset", "100%")
+          //.attr("stop-color", "#030060")
+          ////.attr("stop-color", "#9900CC")
+          //.attr("stop-opacity", 1);
 
       this.data = new Uint8Array(this.analyser.frequencyBinCount);
       this.refresh();
@@ -109,23 +109,32 @@ function(
       // update the time data with the analyzer
       this.analyser.getByteTimeDomainData(this.data);
 
-      particle = this.vizualizerEl.selectAll('rect')
+      particle = this.vizualizerEl.selectAll('line')
         .data(this.data, function (d, i) {
           return {id: i, d: d};
         });
 
+      function getX(d,i) {
+        return (i * (particleWidth + 1));
+      }
+
       particle
         .enter()
-        .append('rect')
-          .attr('x', function (d, i) {
-            return (i * (particleWidth + 1));
-          })
-          .attr('y', function (d) {
-            return height - d;
-          })
-          .attr('width', particleWidth)
-          .attr('height', function (d) { return d; })
-          .attr('class', 'bar');
+        .append('line')
+          .attr({
+            'stroke': '#f00',
+            'stroke-width': particleWidth,
+            'class': 'bar',
+            'x1': getX,
+            'y1': this.height,
+            'x2': getX,
+            'height': function (d) {
+              return d;
+            },
+            'y2': function (d) {
+              return height - d;
+            }
+          });
 
       particle
         .exit()
