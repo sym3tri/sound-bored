@@ -29,18 +29,19 @@ function($, _, Backbone, Sample, tpl) {
      */
     template: tpl,
     className: 'sample-pad',
-    tagName: 'button',
+    tagName: 'div',
 
     /**
      * @private
      */
     events: {
-      'dragenter': 'onDragEnter',
-      'dragleave': 'onDragLeave',
-      'dragover': 'onDragOver',
-      'drop': 'onDrop',
-      'mousedown': 'onMousedown',
-      'contextmenu': 'onRightClick'
+      'dragenter .trigger-pad': 'onDragEnter',
+      'dragleave .trigger-pad': 'onDragLeave',
+      'dragover .trigger-pad': 'onDragOver',
+      'drop .trigger-pad': 'onDrop',
+      'mousedown .trigger-pad': 'onMousedown',
+      'contextmenu .trigger-pad': 'onRightClick',
+      'click .pad-options .edit': 'onEditClick'
     },
 
     initialize: function () {
@@ -57,16 +58,16 @@ function($, _, Backbone, Sample, tpl) {
       this.$el.html(this.template({
         sample: this.sample.toJSON()
       }));
-      // btn class makes pads pressable
+      this.triggerPadEl = this.$('.trigger-pad').first();
       if (this.sample.get('loaded')) {
-        this.$el
+        this.triggerPadEl
           .removeClass('loading')
-          .addClass('btn');
+          .addClass('is-loaded');
       }
-      this.$el.popover({
-        trigger: 'manual',
-        animation: false,
-        content: 'sound settings...' });
+      //this.$el.popover({
+        //trigger: 'manual',
+        //animation: false,
+        //content: 'sound settings...' });
       return this;
     },
 
@@ -79,7 +80,7 @@ function($, _, Backbone, Sample, tpl) {
     },
 
     onDragEnter: function (e) {
-      this.$el.addClass('drag');
+      this.triggerPadEl.addClass('drag');
     },
 
     onDragOver: function (e) {
@@ -87,12 +88,12 @@ function($, _, Backbone, Sample, tpl) {
     },
 
     onDragLeave: function (e) {
-      this.$el.removeClass('drag');
+      this.triggerPadEl.removeClass('drag');
     },
 
     onDrop: function (e) {
       var files = e.originalEvent.dataTransfer.files;
-      this.$el
+      this.triggerPadEl
         .removeClass('drag')
         .addClass('loading');
       this.loadFile(files[0]);
@@ -106,7 +107,14 @@ function($, _, Backbone, Sample, tpl) {
 
     onRightClick: function (e) {
       console.log('right click');
-      this.$el.popover('show');
+      //this.$el.popover('show');
+      e.preventDefault();
+      return false;
+    },
+
+    onEditClick: function (e) {
+      this.$('.trigger-pad').toggleClass('is-flipped');
+      //this.$el.toggleClass('is-flipped');
       e.preventDefault();
       return false;
     }

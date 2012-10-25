@@ -1,40 +1,95 @@
 .sample-pad {
   display: inline-block;
   box-sizing: border-box;
-  vertical-align: bottom;
-  width: 100px;
-  height: 100px;
+  vertical-align: middle;
   margin: 4px;
-  padding: 10px;
-  border: 1px dashed @grayLight;
-  border-radius: 4px;
-  background-color: @grayLighter;
-  font-size: 0.7rem;
-  line-height: 0.7rem;
-  text-align: center;
-  text-overflow: ellipsis;
-  word-wrap: break-word;
-  overflow: hidden;
-  cursor: default;
-  user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
+  width: 100px;
 
-  &.drag {
-    border-style: solid;
+  .pad-options {
+    color: #666;
+    font-size: 0.8em;
+    .option {
+      padding: 1px 4px;
+    }
   }
-  &.loading {
-    border-style: solid;
+
+  .trigger-pad {
+    box-sizing: border-box;
+    width: 100px;
+    height: 100px;
+    border: 1px dashed @grayLight;
+    border-radius: 4px;
+    cursor: default;
+    user-select: none;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+
+    &.drag {
+      border-style: solid;
+    }
+    &.loading {
+      border-style: solid;
+    }
+    &.is-loaded {
+      border: 1px solid @blue;
+      border-bottom-width: 2px;
+      border-right-width: 2px;
+      cursor: pointer;
+    }
+    &.is-loaded:active {
+      border-bottom-width: 1px;
+      border-top-width: 2px;
+    }
+
   }
-  /* btn class means active & loaded */
-  &.btn {
-    border: 1px solid @blue;
-    border-bottom-width: 2px;
-    border-right-width: 2px;
-    cursor: pointer;
-  }
-  &.btn:active {
-    border-bottom-width: 1px;
-    border-top-width: 2px;
+
+}
+
+.sample-pad {
+
+  .trigger-pad {
+    position: relative;
+    -webkit-transform-style: preserve-3d;
+
+    -webkit-transition: height 300ms linear 0ms,
+        width 300ms linear 0ms,
+        box-shadow 300ms linear 0ms,
+        -webkit-transform 300ms linear 0ms;
+
+    &.is-flipped {
+      -webkit-transform: rotateY(180deg);
+      box-shadow: -6px 6px 20px #666;
+      height: 400px;
+      width: 400px;
+      z-index: 100;
+    }
+
+    .face {
+      box-sizing: border-box;
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      -webkit-backface-visibility: hidden;
+      border-radius: 4px;
+      padding: 10px;
+
+      &.back {
+        -webkit-transform: rotateY(180deg);
+        background-color: @white;
+      }
+      &.front {
+        background-color: @grayLighter;
+        overflow: hidden;
+        -webkit-transform: translate3d(0, 0, 0);
+        font-size: 0.7rem;
+        line-height: 0.7rem;
+        text-align: center;
+        text-overflow: ellipsis;
+        word-wrap: break-word;
+      }
+    }
+
   }
 }

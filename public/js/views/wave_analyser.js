@@ -140,8 +140,8 @@ function(
         .exit()
         .remove();
 
-      webkitRequestAnimationFrame(
-        _.bind(this.refresh, this), this.vizualizerEl[0][0]);
+      //webkitRequestAnimationFrame(
+        //_.bind(this.refresh, this), this.vizualizerEl[0][0]);
     }
 
   });
