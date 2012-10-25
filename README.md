@@ -1,6 +1,16 @@
 sound-bored
 ===========
 
+## INSTALL
+- `npm install -g grunt`
+- `npm install`
+- `grunt`
+- install redis server
+- run `redis-server`
+- `npm start`
+
+
+
 ## TODO
 - Session management
 - save soundboards to database
