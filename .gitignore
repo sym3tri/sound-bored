@@ -3,3 +3,4 @@ npm-debug.log
 public/dist/
 testrunner/testlist.js
 app/uploads/
+dump.rdb
