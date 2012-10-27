@@ -39,7 +39,7 @@ function($, _, Backbone, Sample, tpl) {
       'dragleave .trigger-pad': 'onDragLeave',
       'dragover .trigger-pad': 'onDragOver',
       'drop .trigger-pad': 'onDrop',
-      'mousedown .trigger-pad': 'onMousedown',
+      'mousedown .trigger-pad .front': 'onMousedown',
       'contextmenu .trigger-pad': 'onRightClick',
       'click .pad-options .edit': 'onEditClick'
     },
