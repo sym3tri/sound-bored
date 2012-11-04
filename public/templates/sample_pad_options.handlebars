@@ -1,14 +1,15 @@
-<div class="sample-pad-options-container">
+<div class="modal-header">
+  <h3>Sample Pad Options</h3>
+</div>
+
+<div class="modal-body">
   <form class="sample-pad-options-form">
 
-    <fieldset class="top-pad-options">
-      <input type="text" name="sampleName" placeholder="sample name"/>
-      <button class="btn">PLAY</button>
-    </fieldset>
-
     <fieldset>
+      <input type="text" name="sampleName" placeholder="sample name"/>
+      <button class="btn pull-right play-btn">PLAY</button>
       <label>
-        <input type="text" name="keymap" class="span2" maxlength="1"/>
+        <input type="text" name="keymap" class="input-small" maxlength="1"/>
         Key Mapping
       </label>
       <label>
@@ -24,6 +25,8 @@
         End Position
       </label>
     </fieldset>
+
+    <hr>
 
     <fieldset>
       <label class="checkbox">
@@ -47,9 +50,10 @@
       </label>
     </fieldset>
 
-    <hr>
-
-    <button class="btn btn-link">Close</button>
-
   </form>
 </div>
+
+<div class="modal-footer">
+  <button class="btn close-btn">Close</button>
+</div>
+

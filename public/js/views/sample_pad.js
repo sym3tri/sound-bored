@@ -8,13 +8,14 @@ define([
   'underscore',
   'backbone',
   'models/sample',
+  'views/sample_pad_options',
   'templates/sample_pad',
-  'bootstrapPopover'
+  'bootstrapModal'
 ],
 /**
  * @returns {ackbone.View}
  */
-function($, _, Backbone, Sample, tpl) {
+function($, _, Backbone, Sample, SamplePadOptionsView, tpl) {
   'use strict';
 
   var SamplePadView;
@@ -63,10 +64,6 @@ function($, _, Backbone, Sample, tpl) {
           .removeClass('loading')
           .addClass('is-loaded');
       }
-      //this.$el.popover({
-        //trigger: 'manual',
-        //animation: false,
-        //content: 'sound settings...' });
       return this;
     },
 
@@ -105,7 +102,12 @@ function($, _, Backbone, Sample, tpl) {
     },
 
     onEditClick: function (e) {
-      this.$('.trigger-pad');
+      if (!this.optionsView) {
+        this.optionsView = new SamplePadOptionsView({
+          model: this.sample
+        });
+      }
+      this.optionsView.render();
       e.preventDefault();
       return false;
     }
