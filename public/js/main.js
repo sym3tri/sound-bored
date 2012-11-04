@@ -19,6 +19,7 @@ require.config({
     'SoundManager':         'lib/soundmanager',
     'AudioContext':         'lib/audiocontext',
     'd3':                   '../extern/d3/d3',
+    'mousetrap':            '../extern/mousetrap/mousetrap',
     'soundCloudBase':       '../extern/soundcloud/soundcloud',
     'soundCloud':           'lib/soundcloud',
     // Bootstrap plugins
