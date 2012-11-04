@@ -102,12 +102,11 @@ function($, _, Backbone, Sample, SamplePadOptionsView, tpl) {
     },
 
     onEditClick: function (e) {
-      if (!this.optionsView) {
-        this.optionsView = new SamplePadOptionsView({
-          model: this.sample
-        });
-      }
-      this.optionsView.render();
+      var optionsView;
+      optionsView = new SamplePadOptionsView({
+        model: this.sample
+      });
+      optionsView.render();
       e.preventDefault();
       return false;
     }
