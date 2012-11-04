@@ -12,7 +12,7 @@ define([
   'bootstrapPopover'
 ],
 /**
- * @returns {Backbone.View}
+ * @returns {ackbone.View}
  */
 function($, _, Backbone, Sample, tpl) {
   'use strict';
@@ -39,9 +39,8 @@ function($, _, Backbone, Sample, tpl) {
       'dragleave .trigger-pad': 'onDragLeave',
       'dragover .trigger-pad': 'onDragOver',
       'drop .trigger-pad': 'onDrop',
-      'mousedown .trigger-pad .front': 'onMousedown',
-      'contextmenu .trigger-pad': 'onRightClick',
-      'click .pad-options .edit': 'onEditClick'
+      'mousedown .trigger-pad': 'onMousedown',
+      'click .pad-options-nav .edit': 'onEditClick'
     },
 
     initialize: function () {
@@ -105,16 +104,8 @@ function($, _, Backbone, Sample, tpl) {
       this.play();
     },
 
-    onRightClick: function (e) {
-      console.log('right click');
-      //this.$el.popover('show');
-      e.preventDefault();
-      return false;
-    },
-
     onEditClick: function (e) {
-      this.$('.trigger-pad').toggleClass('is-flipped');
-      //this.$el.toggleClass('is-flipped');
+      this.$('.trigger-pad');
       e.preventDefault();
       return false;
     }

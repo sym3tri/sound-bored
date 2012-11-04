@@ -51,7 +51,6 @@ function (Backbone, NavView, HomeView, AboutView) {
     },
 
     loginComplete: function () {
-      alert('logged in');
       window.opener.SC.connectCallback();
     },
 
