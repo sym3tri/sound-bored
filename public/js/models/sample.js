@@ -7,13 +7,14 @@ define([
   'underscore',
   'backbone',
   'AudioContext',
+  'mousetrap',
   'models/sound'
 ],
 
 /**
  * @returns {Backbone.Model}
  */
-function(_, Backbone, AudioContext, Sound) {
+function(_, Backbone, AudioContext, Mousetrap, Sound) {
   'use strict';
 
   var Sample;
@@ -43,7 +44,12 @@ function(_, Backbone, AudioContext, Sound) {
        * Optional position info for the sample.
        * @type {number}
        */
-      position: 0
+      position: 0,
+      /**
+       * Optional shortcut key to trigger the sample.
+       * @type {string}
+       */
+      keymap: null
     },
 
     /**
@@ -58,6 +64,16 @@ function(_, Backbone, AudioContext, Sound) {
       this.sound.on('change:loaded', function (e) {
         this.set('loaded', true);
       }, this);
+      this.on('change:keymap', function (e) {
+        this.bindKeymap(e.previous('keymap'));
+      }, this);
+    },
+
+    bindKeymap: function (oldKey) {
+      if (oldKey) {
+        Mousetrap.unbind(oldKey);
+      }
+      Mousetrap.bind(this.get('keymap'), _.bind(this.play, this));
     },
 
     loadFile: function (file) {
