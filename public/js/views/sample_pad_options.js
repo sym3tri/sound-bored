@@ -36,7 +36,8 @@ function($, _, Backbone, Sample, tpl) {
     events: {
       'click .close-btn': 'onCloseClick',
       'click .play-btn': 'onPlayClick',
-      'change input[name="keymap"]': 'onKeymapChange'
+      'change input[name="keymap"]': 'onKeymapChange',
+      'change input[name="sampleName"]': 'onSampleNameChange'
     },
 
     initialize: function () {
@@ -68,6 +69,10 @@ function($, _, Backbone, Sample, tpl) {
 
     onKeymapChange: function (e) {
       this.sample.set('keymap', this.$(e.target).val());
+    },
+
+    onSampleNameChange: function (e) {
+      this.sample.set('name', this.$(e.target).val());
     },
 
     onPlayClick: function (e) {
