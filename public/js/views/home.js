@@ -73,7 +73,7 @@ function (
         })
       );
       this.renderSampler(this.$('.sampler-view-container'));
-      this.renderWidgets();
+      //this.renderWidgets();
       return this;
     },
 
