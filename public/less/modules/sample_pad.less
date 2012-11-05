@@ -18,6 +18,7 @@
     background-color: @grayLighter;
     border: 1px dashed @grayLight;
     border-radius: 4px;
+    outline: none;
     padding: 10px;
     cursor: default;
     user-select: none;
@@ -36,9 +37,17 @@
       border-right-width: 2px;
       cursor: pointer;
     }
+    &.is-loaded.is-active,
     &.is-loaded:active {
       border-bottom-width: 1px;
       border-top-width: 2px;
+    }
+
+    .keymap {
+      font-size: 200%;
+      font-weight: bold;
+      padding: 10px;
+      line-height: 100%;
     }
 
   }

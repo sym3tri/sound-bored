@@ -35,7 +35,8 @@ function($, _, Backbone, Sample, tpl) {
      */
     events: {
       'click .close-btn': 'onCloseClick',
-      'click .play-btn': 'onPlayClick'
+      'click .play-btn': 'onPlayClick',
+      'change input[name="keymap"]': 'onKeymapChange'
     },
 
     initialize: function () {
@@ -63,6 +64,10 @@ function($, _, Backbone, Sample, tpl) {
       $(document.body).append(this.$el);
       this.$el.on('hidden', _.bind(this.remove, this));
       this.$el.modal();
+    },
+
+    onKeymapChange: function (e) {
+      this.sample.set('keymap', this.$(e.target).val());
     },
 
     onPlayClick: function (e) {

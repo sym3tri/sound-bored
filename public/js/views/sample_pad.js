@@ -45,9 +45,10 @@ function($, _, Backbone, Sample, SamplePadOptionsView, tpl) {
     },
 
     initialize: function () {
-      _.bindAll(this, 'render');
+      _.bindAll(this, 'render', 'onSoundPlay');
       this.sample = this.model;
       this.sample.on('change', this.render);
+      this.sample.sound.on('play', _.debounce(this.onSoundPlay, 20));
     },
 
     /**
@@ -58,7 +59,7 @@ function($, _, Backbone, Sample, SamplePadOptionsView, tpl) {
       this.$el.html(this.template({
         sample: this.sample.toJSON()
       }));
-      this.triggerPadEl = this.$('.trigger-pad').first();
+      this.triggerPadEl = this.$('.trigger-pad');
       if (this.sample.get('loaded')) {
         this.triggerPadEl
           .removeClass('loading')
@@ -99,6 +100,17 @@ function($, _, Backbone, Sample, SamplePadOptionsView, tpl) {
 
     onMousedown: function (e) {
       this.play();
+    },
+
+    onSoundPlay: function (e) {
+      var triggerPadEl = this.triggerPadEl;
+      triggerPadEl.addClass('is-active');
+      _.debounce(
+        _.delay(function () {
+            triggerPadEl.removeClass('is-active');
+        },
+        100),
+      100);
     },
 
     onEditClick: function (e) {
