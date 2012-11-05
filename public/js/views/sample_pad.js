@@ -8,13 +8,14 @@ define([
   'underscore',
   'backbone',
   'models/sample',
+  'views/sample_pad_options',
   'templates/sample_pad',
-  'bootstrapPopover'
+  'bootstrapModal'
 ],
 /**
- * @returns {Backbone.View}
+ * @returns {ackbone.View}
  */
-function($, _, Backbone, Sample, tpl) {
+function($, _, Backbone, Sample, SamplePadOptionsView, tpl) {
   'use strict';
 
   var SamplePadView;
@@ -40,14 +41,14 @@ function($, _, Backbone, Sample, tpl) {
       'dragover .trigger-pad': 'onDragOver',
       'drop .trigger-pad': 'onDrop',
       'mousedown .trigger-pad': 'onMousedown',
-      'contextmenu .trigger-pad': 'onRightClick',
-      'click .pad-options .edit': 'onEditClick'
+      'click .pad-options-nav .edit': 'onEditClick'
     },
 
     initialize: function () {
-      _.bindAll(this, 'render');
+      _.bindAll(this, 'render', 'onSoundPlay');
       this.sample = this.model;
       this.sample.on('change', this.render);
+      this.sample.sound.on('play', _.debounce(this.onSoundPlay, 20));
     },
 
     /**
@@ -58,16 +59,12 @@ function($, _, Backbone, Sample, tpl) {
       this.$el.html(this.template({
         sample: this.sample.toJSON()
       }));
-      this.triggerPadEl = this.$('.trigger-pad').first();
+      this.triggerPadEl = this.$('.trigger-pad');
       if (this.sample.get('loaded')) {
         this.triggerPadEl
           .removeClass('loading')
           .addClass('is-loaded');
       }
-      //this.$el.popover({
-        //trigger: 'manual',
-        //animation: false,
-        //content: 'sound settings...' });
       return this;
     },
 
@@ -105,16 +102,23 @@ function($, _, Backbone, Sample, tpl) {
       this.play();
     },
 
-    onRightClick: function (e) {
-      console.log('right click');
-      //this.$el.popover('show');
-      e.preventDefault();
-      return false;
+    onSoundPlay: function (e) {
+      var triggerPadEl = this.triggerPadEl;
+      triggerPadEl.addClass('is-active');
+      _.debounce(
+        _.delay(function () {
+            triggerPadEl.removeClass('is-active');
+        },
+        100),
+      100);
     },
 
     onEditClick: function (e) {
-      this.$('.trigger-pad').toggleClass('is-flipped');
-      //this.$el.toggleClass('is-flipped');
+      var optionsView;
+      optionsView = new SamplePadOptionsView({
+        model: this.sample
+      });
+      optionsView.render();
       e.preventDefault();
       return false;
     }

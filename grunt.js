@@ -111,7 +111,8 @@ module.exports = function(grunt) {
           webkitRequestAnimationFrame: true,
           console: true,
           Float32Array: true,
-          Uint8Array: true
+          Uint8Array: true,
+          Blob: true
         }
       },
       specs: {

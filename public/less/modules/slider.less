@@ -1,0 +1,18 @@
+.slider {
+  width: 120px;
+  -webkit-appearance: none;
+  height: 8px;
+  margin: 10px 0 10px 0;
+  border-radius: 4px;
+  cursor: pointer;
+  .buttonBackground(@btnBackground, @btnBackgroundHighlight, @grayDark, 0 1px 1px rgba(255,255,255,.75));
+}
+
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 24px;
+  width: 16px;
+  border-radius: 2px;
+  .buttonBackground(@btnInverseBackground, @btnInverseBackgroundHighlight);
+  .box-sizing(border-box);
+}
