@@ -1,9 +1,9 @@
 (function () {
   'use strict';
 
-  var redis = require('redis'),
-      client = new redis.createClient(),
-      DB_INDEX = 1;
+  //var redis = require('redis'),
+      //client = new redis.createClient(),
+      //DB_INDEX = 1;
 
   module.exports = function (app) {
 
@@ -22,23 +22,23 @@
 
     app.get('/api/soundbored/:id', function (req, res) {
       var hashId = req.params.id;
-      client.select(DB_INDEX);
-      client.hgetall(hashId, function (err, data) {
-        if (err) {
-          res.send(500, 'error');
-        } else if (data) {
-          res.send(200, { data: data });
-        } else {
-          res.send(404, { error: 'not found' });
-        }
-      });
+      //client.select(DB_INDEX);
+      //client.hgetall(hashId, function (err, data) {
+        //if (err) {
+          //res.send(500, 'error');
+        //} else if (data) {
+          //res.send(200, { data: data });
+        //} else {
+          //res.send(404, { error: 'not found' });
+        //}
+      //});
     });
 
     app.post('/api/soundbored', function (req, res) {
       var hashId = generateHashId(req),
           samplerData = req.params.sampler;
-      client.select(DB_INDEX);
-      client.hmset(hashId, testSampler);
+      //client.select(DB_INDEX);
+      //client.hmset(hashId, testSampler);
     });
 
   };
