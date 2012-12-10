@@ -22,7 +22,8 @@
     "amdefine": ">=0.0.2",
     "requirejs": ">=2.0.2",
     "chai": ">=1.0.4",
-    "connect-redis": "~1.4.2"
+    "connect-redis": "~1.4.2",
+    "grunt-contrib": "~0.3.0"
   },
   "devDependencies": {},
   "optionalDependencies": {},
