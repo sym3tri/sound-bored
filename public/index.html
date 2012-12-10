@@ -2,12 +2,16 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
+
+    <!-- TODO: TEMPLATIFY THIS -->
     <title>{{title}}</title>
+
+    <!-- TODO: TEMPLATIFY THIS -->
+    <link rel="stylesheet" href="dist/style.css">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
-    <!-- styles -->
-    <link rel="stylesheet" href="/dist/style.css">
     <!-- fav and touch icons -->
     <!--<link rel="shortcut icon" href="/img/icons/favicon.ico">-->
     <!--<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/img/icons/apple-touch-icon-144-precomposed.png">-->
@@ -21,10 +25,11 @@
     </div>
 
     <div id="main-container" class="container-fluid">
-      {{{body}}}
-    </div><!--/.container-fluid -->
+    </div>
 
-    <script data-main="js/main" src="/extern/require/require.js"></script>
+    <!-- TODO: TEMPLATIFY THIS -->
+    <!--<script data-main="js/main" src="require.min.js"></script>-->
+    <script data-main="js/main" src="js/extern/require/require.js"></script>
 
     <!--<script data-main="dist/main.built" src="/extern/require/require.js"></script>-->
 
