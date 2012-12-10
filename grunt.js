@@ -3,6 +3,7 @@ module.exports = function(grunt) {
   'use strict';
 
   // Load up npm task plugins
+  grunt.loadNpmTasks('grunt-contrib');
   grunt.loadNpmTasks('grunt-recess');
   grunt.loadNpmTasks('grunt-requirejs');
   grunt.loadNpmTasks('grunt-exec');
@@ -37,11 +38,19 @@ module.exports = function(grunt) {
       }
     },
     requirejs: {
-      baseUrl: 'public/js',
+      //baseUrl: 'public/js',
+      //name: 'main',
+      //mainConfigFile: 'public/js/main.js',
+      //out: 'public/dist/main.built.js',
+      //preserveLicenseComments: false
+      appDir: 'public/js',
+      baseUrl: './',
+      dir: 'public/dist/js',
       name: 'main',
       mainConfigFile: 'public/js/main.js',
-      out: 'public/dist/main.built.js',
-      preserveLicenseComments: false
+      preserveLicenseComments: false,
+      optimizeAllPluginResources: true,
+      findNestedDependencies: true
     },
     handlebars: {
       srcRoot: 'public/templates/',
@@ -57,6 +66,15 @@ module.exports = function(grunt) {
     server: {
       port: 3002,
       base: '.'
+    },
+    copy: {
+      dist: {
+        files: {
+          'public/dist/require.min.js': 'public/js/extern/require/require.min.js',
+          'public/dist/require.js': 'public/js/extern/require/require.js',
+          'public/dist/index.html': 'public/index.html'
+        }
+      }
     },
     watch: {
       less: {
@@ -139,7 +157,7 @@ module.exports = function(grunt) {
   grunt.registerTask('templates', 'handlebars');
 
   // Does a basic build.
-  grunt.registerTask('default', 'lint templates recess:dev');
+  grunt.registerTask('default', 'lint templates copy recess:dev');
   // Does a full production-ready build and compresses and minifies everything.
   grunt.registerTask('prod', 'lint templates requirejs recess:prod');
   grunt.registerTask('test', 'server mochaphantom');
