@@ -22,6 +22,7 @@ require.config({
     'mousetrap':            'extern/mousetrap/mousetrap',
     'soundCloudBase':       'extern/soundcloud/soundcloud',
     'soundCloud':           'lib/soundcloud',
+    'gapi':                 'https://apis.google.com/js/client.js?onload=handleClientLoad',
     // Bootstrap plugins
     'bootstrapAlert':       'extern/bootstrap/js/bootstrap-alert',
     'bootstrapButton':      'extern/bootstrap/js/bootstrap-button',
@@ -60,6 +61,9 @@ require.config({
     },
     'soundCloudBase': {
       exports: 'SC'
+    },
+    'gapi': {
+      exports: 'gapi'
     },
     // Boostrap Plugins
     'bootstrapAlert':       ['jquery'],

@@ -9,12 +9,14 @@ define([
   'backbone',
   'models/sampler',
   'views/sample_pad',
+  'cmd/save_command',
   'templates/sampler'
 ],
 /**
  * @returns {Backbone.View}
  */
-function($, _, Backbone, Sampler, SamplePadView, tpl) {
+function($, _, Backbone, Sampler, SamplePadView, SaveCommand, tpl) {
+
   'use strict';
 
   var SamplerView;
@@ -85,7 +87,18 @@ function($, _, Backbone, Sampler, SamplePadView, tpl) {
     },
 
     onSaveClick: function (e) {
-      this.sampler.save();
+      var saveCmd = new SaveCommand(this.sampler);
+
+      saveCmd.execute()
+        .then(
+          function (result) {
+            console.log('all are good:' + result);
+          },
+          function (result) {
+            console.log('not all are good:' + result);
+          });
+
+      //this.sampler.save();
       e.preventDefault();
     },
 
