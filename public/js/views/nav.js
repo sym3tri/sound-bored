@@ -42,7 +42,7 @@ function($, _, Backbone, navTpl) {
      * @private
      */
     navItems: [
-      { route: 'home', display: 'Home' },
+      { route: '', display: 'Home' },
       { route: 'about', display: 'About' }
     ],
 

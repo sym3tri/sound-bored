@@ -25,7 +25,6 @@ function (Backbone, NavView, HomeView, AboutView) {
 
     routes: {
       '': 'home',
-      'home': 'home',
       'about': 'about',
       'login-complete': 'loginComplete',
       // Default
@@ -56,7 +55,7 @@ function (Backbone, NavView, HomeView, AboutView) {
 
     defaultAction: function (actions) {
       // No route.
-      this.navigate('home', { trigger: true, replace: true });
+      this.navigate('', { trigger: true, replace: true });
     }
 
   });
